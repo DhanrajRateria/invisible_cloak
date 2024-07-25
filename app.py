@@ -3,7 +3,19 @@ import cv2
 from invisible_cloak import InvisibleCloak
 
 app = Flask(__name__)
-cloak = InvisibleCloak()
+def initialize_cloak():
+    for i in range(10):  # Try camera indices 0 to 9
+        try:
+            return InvisibleCloak(camera_index=i)
+        except ValueError as e:
+            print(f"Failed to initialize with camera index {i}: {e}")
+    raise ValueError("Could not initialize InvisibleCloak with any available camera")
+
+try:
+    cloak = initialize_cloak()
+except ValueError as e:
+    print(f"Error: {e}")
+    exit(1)
 
 @app.route('/')
 def index():

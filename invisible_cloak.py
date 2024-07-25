@@ -31,8 +31,13 @@ def apply_cloak_effect(frame, mask, background):
     return cv2.add(fg, bg)
 
 class InvisibleCloak:
-    def __init__(self):
-        self.capture = cv2.VideoCapture(0)
+    def __init__(self, camera_index=0):
+        self.capture = cv2.VideoCapture(camera_index)
+        if not self.capture.isOpened():
+            raise ValueError(f"Could not open camera with index {camera_index}")
+        
+        print(f"Camera opened successfully. Width: {self.capture.get(cv2.CAP_PROP_FRAME_WIDTH)}, Height: {self.capture.get(cv2.CAP_PROP_FRAME_HEIGHT)}")
+        
         try:
             self.background = create_background(self.capture)
         except ValueError as e:
