@@ -38,6 +38,12 @@ class InvisibleCloak:
         
         print(f"Camera opened successfully. Width: {self.capture.get(cv2.CAP_PROP_FRAME_WIDTH)}, Height: {self.capture.get(cv2.CAP_PROP_FRAME_HEIGHT)}")
         
+        ret, frame = self.capture.read()
+        if not ret:
+            raise ValueError("Could not read a frame from the camera")
+        
+        print(f"Successfully read a test frame. Shape: {frame.shape}")
+
         try:
             self.background = create_background(self.capture)
         except ValueError as e:
