@@ -1,15 +1,13 @@
 from flask import Flask, render_template, Response
-from flask_socketio import SocketIO
-from invisible_cloak import InvisibleCloak
 import cv2
+from invisible_cloak import InvisibleCloak
 
 app = Flask(__name__)
-socketio = SocketIO(app)
 cloak = InvisibleCloak()
 
 @app.route('/')
 def index():
-    return render_template('templates/index.html')
+    return render_template('index.html')
 
 def gen():
     while True:
@@ -26,4 +24,4 @@ def video_feed():
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    app.run(debug=True)
