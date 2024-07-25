@@ -4,7 +4,7 @@
 ![OpenCV](https://img.shields.io/badge/OpenCV-4.5%2B-green)
 ![Flask](https://img.shields.io/badge/Flask-2.0%2B-red)
 
-Experience the magic of Harry Potter's invisibility cloak in realtime! This web application uses computer vision techniques to create an "invisible cloak" effect on live video.
+Experience the magic of Harry Potter's invisibility cloak in real time! This web application uses computer vision techniques to create an "invisible cloak" effect on live video.
 
 ![Invisible Cloak Demo](demo.gif)
 

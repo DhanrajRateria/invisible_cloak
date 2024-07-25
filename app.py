@@ -1,6 +1,7 @@
 from flask import Flask, render_template, Response
 from flask_socketio import SocketIO
 from invisible_cloak import InvisibleCloak
+import cv2
 
 app = Flask(__name__)
 socketio = SocketIO(app)
