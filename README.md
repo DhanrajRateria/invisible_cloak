@@ -23,6 +23,7 @@ Experience the magic of Harry Potter's invisibility cloak in real time! This web
 - NumPy
 - Flask
 - HTML/CSS
+- Streamlit
 
 ## 🚀 Getting Started
 
