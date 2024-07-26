@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Invisible Cloak</title>
+    <title>Harry Potter's Invisible Cloak</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -10,18 +11,94 @@
             margin: 0;
             padding: 0;
             background-color: #f0f0f0;
+            color: #333;
         }
         h1 {
             margin: 20px;
+            font-family: 'Cinzel', serif;
+            color: #2C3E50;
         }
-        img {
-            width: 80%;
+        #video-container {
+            margin: 20px auto;
             max-width: 800px;
+        }
+        #video-feed {
+            width: 100%;
+            max-width: 800px;
+            border: 2px solid #333;
+            border-radius: 10px;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #status {
+            margin-top: 20px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <h1>Invisible Cloak</h1>
-    <img src="{{ url_for('video_feed') }}">
+    <h1>🧙‍♂️ Harry Potter's Invisible Cloak</h1>
+    <div id="video-container">
+        <img id="video-feed" src="{{ url_for('video_feed') }}">
+    </div>
+    <div class="controls">
+        <button id="initCamera">Initialize Camera</button>
+        <button id="captureBackground">Capture Background</button>
+        <button id="reset">Reset</button>
+    </div>
+    <div id="status"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#initCamera').click(function() {
+                $.post('/initialize_camera', function(data) {
+                    if (data.success) {
+                        $('#status').text('Camera initialized successfully.');
+                    } else {
+                        $('#status').text('Failed to initialize camera.');
+                    }
+                });
+            });
+
+            $('#captureBackground').click(function() {
+                $('#status').text('Capturing background. Please move out of the frame...');
+                $.post('/capture_background', function(data) {
+                    if (data.success) {
+                        $('#status').text('Background captured successfully. You can now use the invisible cloak!');
+                    } else {
+                        $('#status').text('Failed to capture background.');
+                    }
+                });
+            });
+
+            $('#reset').click(function() {
+                $.post('/reset', function(data) {
+                    if (data.success) {
+                        $('#status').text('Reset successful. You can capture a new background.');
+                    } else {
+                        $('#status').text('Failed to reset.');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
