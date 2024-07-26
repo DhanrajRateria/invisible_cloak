@@ -1,0 +1,31 @@
+body {
+    color: #333;
+    background-color: #f0f0f0;
+}
+
+.stButton > button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.stButton > button:hover {
+    background-color: #45a049;
+}
+
+h1 {
+    color: #2C3E50;
+    font-family: 'Harry Potter', fantasy;
+}
+
+.stSubheader {
+    color: #34495E;
+}
