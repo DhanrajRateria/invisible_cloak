@@ -122,8 +122,6 @@ def main():
 
     with col1:
         video_placeholder = st.empty()
-
-    # Display video stream
     while True:
         frame = cloak.get_frame()
         if frame is not None:
