@@ -26,7 +26,7 @@ class StreamlitInvisibleCloak:
             ret, frame = self.camera.read()
             if ret:
                 backgrounds.append(frame)
-            time.sleep(20/30)
+            time.sleep(15/30)
         
         if backgrounds:
             return np.median(backgrounds, axis=0).astype(np.uint8)
@@ -63,7 +63,7 @@ def main():
     st.set_page_config(page_title="Invisible Cloak", page_icon="🧙‍♂️", layout="wide")
     with open('style.css') as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
-        
+
     st.title("🧙‍♂️ Harry Potter's Invisible Cloak")
     st.write("Definitely not a child-action movie. Sorry :)")
 
@@ -73,12 +73,33 @@ def main():
 
     with col2:
         st.subheader("Controls")
-        if st.button("Capture Background"):
-            with st.spinner("Please move out of frame. Capturing background..."):
+        step = st.empty()
+        capture_button = st.empty()
+
+        if 'stage' not in st.session_state:
+            st.session_state.stage = 'init'
+
+        if st.session_state.stage == 'init':
+            step.info("Step 1: Move out of the camera frame")
+            if capture_button.button("I'm out of the frame"):
+                st.session_state.stage = 'capture'
+
+        if st.session_state.stage == 'capture':
+            step.info("Step 2: Capturing background")
+            with st.spinner("Capturing background..."):
                 cloak.background = cloak.capture_background()
             if cloak.background is not None:
                 st.success("Background captured successfully!")
-                st.info("Now, put on a blue cloth and stand in front of the camera.")
+                st.session_state.stage = 'ready'
+            else:
+                st.error("Failed to capture background. Please try again.")
+                st.session_state.stage = 'init'
+
+        if st.session_state.stage == 'ready':
+            step.info("Step 3: Put on a blue cloth and stand in front of the camera")
+            if capture_button.button("Reset"):
+                st.session_state.stage = 'init'
+                cloak.background = None
 
     with col1:
         video_placeholder = st.empty()
@@ -86,7 +107,10 @@ def main():
     while True:
         frame = cloak.get_frame()
         if frame is not None:
-            processed_frame = cloak.process_frame(frame)
+            if st.session_state.stage == 'ready':
+                processed_frame = cloak.process_frame(frame)
+            else:
+                processed_frame = frame
             video_placeholder.image(processed_frame, channels="BGR", use_column_width=True)
         else:
             break
